@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Model Performance</title>
+
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<nav class="navbar">
+
+<div class="nav-brand">
+    🫁 Lung Cancer Prediction
+</div>
+
+<div class="nav-links">
+
+    <a href="/">
+        Home
+    </a>
+
+    <a href="/history">
+        History
+    </a>
+
+    <a href="/performance">
+        Performance
+    </a>
+
+    <a href="/about">
+        About
+    </a>
+
+</div>
+
+</nav>
+
+<div class="container">
+
+<div class="header">
+
+    <div class="header-icon">
+        📊
+    </div>
+
+    <h1>
+        Model Performance
+    </h1>
+
+    <p>
+        Random Forest Classifier Evaluation
+    </p>
+
+    <span class="project-badge">
+        Test Dataset Results
+    </span>
+
+</div>
+
+
+<div class="result-card">
+
+    <div class="result-header">
+
+        <span class="result-icon">
+            🎯
+        </span>
+
+        <div>
+
+            <h2>
+                Performance Metrics
+            </h2>
+
+            <p>
+                Evaluation results on the test dataset
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="metrics-grid">
+
+
+        <div class="metric-card">
+
+            <div class="metric-icon">
+                🎯
+            </div>
+
+            <span>
+                Accuracy
+            </span>
+
+            <strong>
+                {{ metrics["Accuracy"] }}
+            </strong>
+
+            <p>
+                Correct predictions
+            </p>
+
+        </div>
+
+
+        <div class="metric-card">
+
+            <div class="metric-icon">
+                🔎
+            </div>
+
+            <span>
+                Precision
+            </span>
+
+            <strong>
+                {{ metrics["Precision"] }}
+            </strong>
+
+            <p>
+                Positive prediction accuracy
+            </p>
+
+        </div>
+
+
+        <div class="metric-card">
+
+            <div class="metric-icon">
+                📈
+            </div>
+
+            <span>
+                Recall
+            </span>
+
+            <strong>
+                {{ metrics["Recall"] }}
+            </strong>
+
+            <p>
+                Positive cases detected
+            </p>
+
+        </div>
+
+
+        <div class="metric-card">
+
+            <div class="metric-icon">
+                ⚖️
+            </div>
+
+            <span>
+                F1 Score
+            </span>
+
+            <strong>
+                {{ metrics["F1 Score"] }}
+            </strong>
+
+            <p>
+                Balance of precision and recall
+            </p>
+
+        </div>
+
+
+        <div class="metric-card">
+
+            <div class="metric-icon">
+                📊
+            </div>
+
+            <span>
+                ROC-AUC
+            </span>
+
+            <strong>
+                {{ metrics["ROC-AUC"] }}
+            </strong>
+
+            <p>
+                Classification performance
+            </p>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<div class="result-card">
+
+    <div class="result-header">
+
+        <span class="result-icon">
+            🧮
+        </span>
+
+        <div>
+
+            <h2>
+                Confusion Matrix
+            </h2>
+
+            <p>
+                Test dataset classification results
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="confusion-container">
+
+        <table class="confusion-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Actual / Predicted
+                    </th>
+
+                    <th>
+                        NO
+                    </th>
+
+                    <th>
+                        YES
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr>
+
+                    <th>
+                        NO
+                    </th>
+
+                    <td>
+                        {{ confusion_matrix["True Negative"] }}
+                    </td>
+
+                    <td>
+                        {{ confusion_matrix["False Positive"] }}
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <th>
+                        YES
+                    </th>
+
+                    <td>
+                        {{ confusion_matrix["False Negative"] }}
+                    </td>
+
+                    <td>
+                        {{ confusion_matrix["True Positive"] }}
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <div class="confusion-explanation">
+
+        <div>
+
+            <strong>
+                True Negative:
+            </strong>
+
+            {{ confusion_matrix["True Negative"] }}
+            cases were correctly predicted as NO.
+
+        </div>
+
+
+        <div>
+
+            <strong>
+                False Positive:
+            </strong>
+
+            {{ confusion_matrix["False Positive"] }}
+            cases were predicted as YES when the actual class was NO.
+
+        </div>
+
+
+        <div>
+
+            <strong>
+                False Negative:
+            </strong>
+
+            {{ confusion_matrix["False Negative"] }}
+            cases were predicted as NO when the actual class was YES.
+
+        </div>
+
+
+        <div>
+
+            <strong>
+                True Positive:
+            </strong>
+
+            {{ confusion_matrix["True Positive"] }}
+            cases were correctly predicted as YES.
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="result-card">
+
+    <div class="result-header">
+
+        <span class="result-icon">
+            🌲
+        </span>
+
+        <div>
+
+            <h2>
+                Model Information
+            </h2>
+
+            <p>
+                Random Forest Classifier
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="ai-content">
+
+        <p>
+            The final machine learning model used in this project
+            is a Random Forest Classifier.
+        </p>
+
+        <br>
+
+        <p>
+            The model contains 200 decision trees and uses balanced
+            class weights.
+        </p>
+
+        <br>
+
+        <p>
+            The dataset was divided into 80% training data and
+            20% testing data.
+        </p>
+
+        <br>
+
+        <p>
+            The metrics displayed on this page are calculated from
+            the test dataset used during model evaluation.
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="disclaimer">
+
+    <div class="disclaimer-icon">
+        ⚠️
+    </div>
+
+    <div>
+
+        <strong>
+            Educational Use Only
+        </strong>
+
+        <p>
+            These results represent the performance of an educational
+            machine learning model on its test dataset. They do not
+            represent clinical accuracy or medical diagnostic performance.
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="footer">
+
+    <p>
+        Lung Cancer Prediction System
+    </p>
+
+    <span>
+        Machine Learning • Flask • Python • Random Forest
+    </span>
+
+</div>
+
+</div>
+
+</body>
+
+</html>

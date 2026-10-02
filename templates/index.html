@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Lung Cancer Prediction System</title>
+
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}">
+
+
+</head>
+
+<body>
+
+<nav class="navbar">
+
+
+<div class="nav-brand">
+    🫁 Lung Cancer Prediction
+</div>
+
+<div class="nav-links">
+
+    <a href="/">
+        Home
+    </a>
+
+    <a href="/history">
+        History
+    </a>
+
+    <a href="/performance"> 
+        Performance 
+    </a>
+
+    <a href="/feature-importance"> 
+        Features 
+    </a>
+
+    <a href="/about">
+        About
+    </a>
+
+</div>
+
+
+</nav>
+
+<div class="container">
+
+
+<div class="header">
+
+    <div class="header-icon">
+        🫁
+    </div>
+
+    <h1>
+        Lung Cancer Prediction
+    </h1>
+
+    <p>
+        Machine Learning Based Prediction System
+    </p>
+
+    <span class="project-badge">
+        Random Forest Classifier
+    </span>
+
+</div>
+
+
+<form
+    id="prediction-form"
+    action="/predict"
+    method="POST"
+>
+
+    <div class="section">
+
+        <h2>
+            👤 Patient Information
+        </h2>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label for="gender">
+                    Gender
+                </label>
+
+                <select
+                    id="gender"
+                    name="gender"
+                    required
+                >
+
+                    <option value="">
+                        Select Gender
+                    </option>
+
+                    <option value="M">
+                        Male
+                    </option>
+
+                    <option value="F">
+                        Female
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="age">
+                    Age
+                </label>
+
+                <input
+                    type="number"
+                    id="age"
+                    name="age"
+                    min="1"
+                    max="120"
+                    placeholder="Enter age"
+                    required
+                >
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="section">
+
+        <h2>
+            🩺 Symptoms & Risk Factors
+        </h2>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+
+                <label for="smoking">
+                    Smoking
+                </label>
+
+                <select
+                    id="smoking"
+                    name="smoking"
+                    required
+                >
+
+                    <option value="">
+                        Select
+                    </option>
+
+                    <option value="1">
+                        No
+                    </option>
+
+                    <option value="2">
+                        Yes
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="yellow_fingers">
+                    Yellow Fingers
+                </label>
+
+                <select
+                    id="yellow_fingers"
+                    name="yellow_fingers"
+                    required
+                >
+
+                    <option value="">
+                        Select
+                    </option>
+
+                    <option value="1">
+                        No
+                    </option>
+
+                    <option value="2">
+                        Yes
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="anxiety">
+                    Anxiety
+                </label>
+
+                <select
+                    id="anxiety"
+                    name="anxiety"
+                    required
+                >
+
+                    <option value="">
+                        Select
+                    </option>
+
+                    <option value="1">
+                        No
+                    </option>
+
+                    <option value="2">
+                        Yes
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="peer_pressure">
+                    Peer Pressure
+                </label>
+
+                <select
+                    id="peer_pressure"
+                    name="peer_pressure"
+                    required
+                >
+
+                    <option value="">
+                        Select
+                    </option>
+
+                    <option value="1">
+                        No
+                    </option>
+
+                    <option value="2">
+                        Yes
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="chronic_disease">
+                    Chronic Disease
+                </label>
+
+                <select
+                    id="chronic_disease"
+                    name="chronic_disease"
+                    required
+                >
+
+                    <option value="">
+                        Select
+                    </option>
+
+                    <option value="1">
+                        No
+                    </option>
+
+                    <option value="2">
+                        Yes
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="fatigue">
+                    Fatigue
+                </label>
+
+                <select
+                    id="fatigue"
+                    name="fatigue"
+                    required
+                >
+
+                    <option value="">
+                        Select
+                    </option>
+
+                    <option value="1">
+                        No
+                    </option>
+
+                    <option value="2">
+                        Yes
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="allergy">
+                    Allergy
+                </label>
+
+                <select
+                    id="allergy"
+                    name="allergy"
+                    required
+                >
+
+                    <option value="">
+                        Select
+                    </option>
+
+                    <option value="1">
+                        No
+                    </option>
+
+                    <option value="2">
+                        Yes
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="wheezing">
+                    Wheezing
+                </label>
+
+                <select
+                    id="wheezing"
+                    name="wheezing"
+                    required
+                >
+
+                    <option value="">
+                        Select
+                    </option>
+
+                    <option value="1">
+                        No
+                    </option>
+
+                    <option value="2">
+                        Yes
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="alcohol_consuming">
+                    Alcohol Consuming
+                </label>
+
+                <select
+                    id="alcohol_consuming"
+                    name="alcohol_consuming"
+                    required
+                >
+
+                    <option value="">
+                        Select
+                    </option>
+
+                    <option value="1">
+                        No
+                    </option>
+
+                    <option value="2">
+                        Yes
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="coughing">
+                    Coughing
+                </label>
+
+                <select
+                    id="coughing"
+                    name="coughing"
+                    required
+                >
+
+                    <option value="">
+                        Select
+                    </option>
+
+                    <option value="1">
+                        No
+                    </option>
+
+                    <option value="2">
+                        Yes
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="shortness_of_breath">
+                    Shortness of Breath
+                </label>
+
+                <select
+                    id="shortness_of_breath"
+                    name="shortness_of_breath"
+                    required
+                >
+
+                    <option value="">
+                        Select
+                    </option>
+
+                    <option value="1">
+                        No
+                    </option>
+
+                    <option value="2">
+                        Yes
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="swallowing_difficulty">
+                    Swallowing Difficulty
+                </label>
+
+                <select
+                    id="swallowing_difficulty"
+                    name="swallowing_difficulty"
+                    required
+                >
+
+                    <option value="">
+                        Select
+                    </option>
+
+                    <option value="1">
+                        No
+                    </option>
+
+                    <option value="2">
+                        Yes
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="chest_pain">
+                    Chest Pain
+                </label>
+
+                <select
+                    id="chest_pain"
+                    name="chest_pain"
+                    required
+                >
+
+                    <option value="">
+                        Select
+                    </option>
+
+                    <option value="1">
+                        No
+                    </option>
+
+                    <option value="2">
+                        Yes
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <button
+        type="submit"
+        class="predict-button"
+    >
+        🔍 Predict Lung Cancer
+    </button>
+
+</form>
+
+
+<div class="history-link-container">
+
+    <a
+        href="/history"
+        class="history-button"
+    >
+        📊 View Prediction History
+    </a>
+
+</div>
+
+
+{% if result %}
+
+<div class="result-card">
+
+
+    <div class="result-header">
+
+        <span class="result-icon">
+            📊
+        </span>
+
+        <div>
+
+            <h2>
+                Prediction Result
+            </h2>
+
+            <p>
+                Random Forest Model Output
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="prediction-status
+        {% if 'YES' in result %}
+            status-positive
+        {% else %}
+            status-negative
+        {% endif %}
+    ">
+
+        <span class="status-icon">
+
+            {% if 'YES' in result %}
+                ⚠️
+            {% else %}
+                ✓
+            {% endif %}
+
+        </span>
+
+        <div>
+
+            <span class="status-label">
+                Prediction
+            </span>
+
+            <strong>
+                {{ result }}
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div class="patient-summary">
+
+        <div class="summary-title">
+
+            <span>
+                👤
+            </span>
+
+            <div>
+
+                <h2>
+                    Patient Input Summary
+                </h2>
+
+                <p>
+                    Information submitted for this prediction
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="summary-grid">
+
+            <div class="summary-item">
+                <span>Gender</span>
+                <strong>{{ patient_summary["Gender"] }}</strong>
+            </div>
+
+            <div class="summary-item">
+                <span>Age</span>
+                <strong>{{ patient_summary["Age"] }}</strong>
+            </div>
+
+            <div class="summary-item">
+                <span>Smoking</span>
+                <strong>{{ patient_summary["Smoking"] }}</strong>
+            </div>
+
+            <div class="summary-item">
+                <span>Yellow Fingers</span>
+                <strong>{{ patient_summary["Yellow Fingers"] }}</strong>
+            </div>
+
+            <div class="summary-item">
+                <span>Anxiety</span>
+                <strong>{{ patient_summary["Anxiety"] }}</strong>
+            </div>
+
+            <div class="summary-item">
+                <span>Peer Pressure</span>
+                <strong>{{ patient_summary["Peer Pressure"] }}</strong>
+            </div>
+
+            <div class="summary-item">
+                <span>Chronic Disease</span>
+                <strong>{{ patient_summary["Chronic Disease"] }}</strong>
+            </div>
+
+            <div class="summary-item">
+                <span>Fatigue</span>
+                <strong>{{ patient_summary["Fatigue"] }}</strong>
+            </div>
+
+            <div class="summary-item">
+                <span>Allergy</span>
+                <strong>{{ patient_summary["Allergy"] }}</strong>
+            </div>
+
+            <div class="summary-item">
+                <span>Wheezing</span>
+                <strong>{{ patient_summary["Wheezing"] }}</strong>
+            </div>
+
+            <div class="summary-item">
+                <span>Alcohol Consuming</span>
+                <strong>{{ patient_summary["Alcohol Consuming"] }}</strong>
+            </div>
+
+            <div class="summary-item">
+                <span>Coughing</span>
+                <strong>{{ patient_summary["Coughing"] }}</strong>
+            </div>
+
+            <div class="summary-item">
+                <span>Shortness of Breath</span>
+                <strong>{{ patient_summary["Shortness of Breath"] }}</strong>
+            </div>
+
+            <div class="summary-item">
+                <span>Swallowing Difficulty</span>
+                <strong>{{ patient_summary["Swallowing Difficulty"] }}</strong>
+            </div>
+
+            <div class="summary-item">
+                <span>Chest Pain</span>
+                <strong>{{ patient_summary["Chest Pain"] }}</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="probability-section">
+
+        <div class="probability-heading">
+
+            <span>
+                Probability of YES
+            </span>
+
+            <strong>
+                {{ probability }}%
+            </strong>
+
+        </div>
+
+
+        <div class="progress-container">
+
+            <div class="progress-bar">
+
+                <div
+                    class="progress-fill"
+                    style="--progress: {{ probability }}%;"
+                ></div>
+
+            </div>
+
+        </div>
+
+
+        <p class="probability-note">
+
+            This value represents the model output for the
+            entered information, not a medical risk percentage.
+
+        </p>
+
+    </div>
+
+
+    <div class="ai-card">
+
+        <div class="ai-title">
+
+            <span>
+                🤖
+            </span>
+
+            <div>
+
+                <h2>
+                    AI Explanation
+                </h2>
+
+                <p>
+                    Local AI explanation generated from the model output
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="ai-content">
+
+            <p>
+                {{ explanation }}
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="new-prediction-container">
+        <a href="/" class="new-prediction-button">
+        🔄 New Prediction
+        </a>
+    </div>
+
+
+    <div class="disclaimer">
+
+        <div class="disclaimer-icon">
+            ⚠️
+        </div>
+
+        <div>
+
+            <strong>
+                Educational Use Only
+            </strong>
+
+            <p>
+                This application is an educational machine learning
+                project. It is not a medical diagnostic tool and should
+                not be used to make medical decisions.
+            </p>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+{% endif %}
+
+
+<div class="footer">
+
+    <p>
+        Lung Cancer Prediction System
+    </p>
+
+    <span>
+        Machine Learning • Flask • Python • Random Forest
+    </span>
+
+</div>
+
+
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Feature Importance</title>
+
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}">
+
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+
+</head>
+
+<body>
+
+<nav class="navbar">
+
+
+<div class="nav-brand">
+    🫁 Lung Cancer Prediction
+</div>
+
+<div class="nav-links">
+
+    <a href="/">
+        Home
+    </a>
+
+    <a href="/history">
+        History
+    </a>
+
+    <a href="/performance">
+        Performance
+    </a>
+
+    <a href="/feature-importance">
+        Features
+    </a>
+
+    <a href="/about">
+        About
+    </a>
+
+</div>
+
+
+</nav>
+
+<div class="container">
+
+
+<div class="header">
+
+    <div class="header-icon">
+        📊
+    </div>
+
+    <h1>
+        Feature Importance
+    </h1>
+
+    <p>
+        Random Forest Feature Importance Analysis
+    </p>
+
+    <span class="project-badge">
+        Model Analysis
+    </span>
+
+</div>
+
+
+<div class="result-card">
+
+    <div class="result-header">
+
+        <span class="result-icon">
+            🌲
+        </span>
+
+        <div>
+
+            <h2>
+                Feature Importance
+            </h2>
+
+            <p>
+                Relative importance of input features in the trained model
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="feature-list">
+
+        {% for item in importance_data %}
+
+        <div class="feature-item">
+
+            <div class="feature-info">
+
+                <span class="feature-name">
+                    {{ item["feature"] }}
+                </span>
+
+                <span class="feature-value">
+                    {{ "%.4f"|format(item["importance"]) }}
+                </span>
+
+            </div>
+
+
+            <div class="feature-bar">
+
+                <div
+                    class="feature-fill"
+                    style="--feature-width: {{ item['importance'] * 100 / 0.157524 }}%;"
+                ></div>
+
+            </div>
+
+
+            <div class="feature-percentage">
+
+                {{ "%.2f"|format(item["importance"] * 100) }}%
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+
+<div class="result-card">
+
+    <div class="result-header">
+
+        <span class="result-icon">
+            📈
+        </span>
+
+        <div>
+
+            <h2>
+                Feature Importance Chart
+            </h2>
+
+            <p>
+                Visual representation of Random Forest feature importance
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="chart-container">
+
+        <canvas id="featureImportanceChart"></canvas>
+
+    </div>
+
+</div>
+
+
+<div class="result-card">
+
+    <div class="result-header">
+
+        <span class="result-icon">
+            📋
+        </span>
+
+        <div>
+
+            <h2>
+                Feature Importance Table
+            </h2>
+
+            <p>
+                Detailed model feature values
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="feature-table-container">
+
+        <table class="feature-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Rank
+                    </th>
+
+                    <th>
+                        Feature
+                    </th>
+
+                    <th>
+                        Importance
+                    </th>
+
+                    <th>
+                        Percentage
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for item in importance_data %}
+
+                <tr>
+
+                    <td>
+                        {{ loop.index }}
+                    </td>
+
+                    <td>
+                        {{ item["feature"] }}
+                    </td>
+
+                    <td>
+                        {{ "%.6f"|format(item["importance"]) }}
+                    </td>
+
+                    <td>
+                        {{ "%.2f"|format(item["importance"] * 100) }}%
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<div class="result-card">
+
+    <div class="result-header">
+
+        <span class="result-icon">
+            💡
+        </span>
+
+        <div>
+
+            <h2>
+                Understanding Feature Importance
+            </h2>
+
+            <p>
+                What these values mean
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="ai-content">
+
+        <p>
+            Feature importance indicates how much each input feature
+            contributed to the decision-making process of the trained
+            Random Forest model.
+        </p>
+
+        <br>
+
+        <p>
+            A higher importance value means that the feature had a
+            greater contribution to the model's predictions within
+            this particular trained model and dataset.
+        </p>
+
+        <br>
+
+        <p>
+            Feature importance does not mean that a feature causes
+            lung cancer or represents medical risk.
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="disclaimer">
+
+    <div class="disclaimer-icon">
+        ⚠️
+    </div>
+
+    <div>
+
+        <strong>
+            Educational Use Only
+        </strong>
+
+        <p>
+            These feature importance values describe the behavior of
+            an educational machine learning model. They are not
+            medical or causal relationships and should not be used
+            for medical decision-making.
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="footer">
+
+    <p>
+        Lung Cancer Prediction System
+    </p>
+
+    <span>
+        Machine Learning • Flask • Python • Random Forest
+    </span>
+
+</div>
+
+
+</div>
+
+<script> const chartLabels = [ "AGE", "ALLERGY", "ALCOHOL CONSUMING", "PEER PRESSURE", "SWALLOWING DIFFICULTY", "CHRONIC DISEASE", "FATIGUE", "WHEEZING", "YELLOW FINGERS", "CHEST PAIN", "ANXIETY", "COUGHING", "SHORTNESS OF BREATH", "GENDER", "SMOKING" ]; const chartValues = [ 0.157524, 0.109562, 0.096349, 0.074473, 0.070578, 0.070348, 0.069986, 0.055073, 0.054103, 0.047661, 0.046249, 0.046092, 0.042731, 0.030313, 0.028958 ]; const ctx = document.getElementById("featureImportanceChart"); new Chart(ctx, { type: "bar", data: { labels: chartLabels, datasets: [ { label: "Feature Importance", data: chartValues, borderWidth: 1 } ] }, options: { indexAxis: "y", responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, title: { display: true, text: "Importance" } }, y: { title: { display: true, text: "Features" } } } } }); </script>
+
+</body>
+
+</html>

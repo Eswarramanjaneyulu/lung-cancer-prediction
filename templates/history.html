@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Prediction History</title>
+
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+
+<div class="nav-brand">
+    🫁 Lung Cancer Prediction
+</div>
+
+<div class="nav-links">
+
+    <a href="/">
+        Home
+    </a>
+
+    <a href="/history">
+        History
+    </a>
+
+    <a href="/performance">
+        Performance
+    </a>
+
+    <a href="/feature-importance">
+        Features
+    </a>
+
+    <a href="/about">
+        About
+    </a>
+
+</div>
+
+
+</nav>
+
+<div class="container">
+
+<div class="header">
+
+    <div class="header-icon">
+        📊
+    </div>
+
+    <h1>
+        Prediction History
+    </h1>
+
+    <p>
+        Previous Random Forest Prediction Results
+    </p>
+
+    <a href="/"
+       class="history-button">
+        ← New Prediction
+    </a>
+
+</div>
+
+
+<div class="result-card">
+
+    {% if records %}
+    <form
+    action="/clear-history"
+    method="POST"
+    onsubmit="return confirm('Are you sure you want to clear all prediction history?');"
+    style="text-align: right; margin-bottom: 20px;"
+>
+
+
+<button
+    type="submit"
+    class="clear-history-button"
+>
+    🗑️ Clear History
+</button>
+
+</form>
+
+
+    <div class="history-table-container">
+
+        <table class="history-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        #
+                    </th>
+
+                    <th>
+                        Date
+                    </th>
+
+                    <th>
+                        Time
+                    </th>
+
+                    <th>
+                        Age
+                    </th>
+
+                    <th>
+                        Gender
+                    </th>
+
+                    <th>
+                        Prediction
+                    </th>
+
+                    <th>
+                        Probability
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for record in records %}
+
+                <tr>
+
+                    <td>
+                        {{ loop.index }}
+                    </td>
+
+                    <td>
+                        {{ record["Date"] }}
+                    </td>
+
+                    <td>
+                        {{ record["Time"] }}
+                    </td>
+
+                    <td>
+                        {{ record["Age"] }}
+                    </td>
+
+                    <td>
+                        {% if record["Gender"] == "M" %}
+                            Male
+                        {% else %}
+                            Female
+                        {% endif %}
+                    </td>
+
+                    <td>
+
+                        {% if "YES" in record["Prediction"] %}
+
+                            <span class="history-positive">
+                                {{ record["Prediction"] }}
+                            </span>
+
+                        {% else %}
+
+                            <span class="history-negative">
+                                {{ record["Prediction"] }}
+                            </span>
+
+                        {% endif %}
+
+                    </td>
+
+                    <td>
+                        {{ record["Probability"] }}
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    {% else %}
+
+    <div class="empty-history">
+
+        <div class="empty-icon">
+            📋
+        </div>
+
+        <h2>
+            No Prediction History
+        </h2>
+
+        <p>
+            Make your first prediction to see the result here.
+        </p>
+
+        <a href="/"
+           class="history-button">
+            Make Prediction
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+
+<div class="disclaimer">
+
+    <div class="disclaimer-icon">
+        ⚠️
+    </div>
+
+    <div>
+
+        <strong>
+            Educational Use Only
+        </strong>
+
+        <p>
+            This prediction history contains outputs from an
+            educational machine learning model. It is not a
+            medical diagnosis and should not be used for medical
+            decision-making.
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="footer">
+
+    <p>
+        Lung Cancer Prediction System
+    </p>
+
+    <span>
+        Machine Learning • Flask • Python • Random Forest
+    </span>
+
+</div>
+
+</div>
+
+</body>
+
+
+</html>
